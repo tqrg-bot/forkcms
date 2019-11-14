@@ -1,0 +1,38 @@
+{% block _category_translations_row %}
+  <ul class="nav nav-tabs" id="categoryTranslations" role="tablist">
+    {% for locale,translation in form.children %}
+      <li class="nav-item">
+        <a class="nav-link{% if loop.first %} active{% endif %}" id="category{{ locale|upper }}TabButton" data-toggle="tab" href="#category{{ locale|upper }}Tab" role="tab" aria-controls="category{{ locale|upper }}Tab"{% if loop.first %} aria-selected="true"{% endif %}>{{ locale|upper|tolabel }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="tab-content">
+    {% for locale,translation in form.children %}
+      <div class="tab-pane{% if loop.first %} active{% endif %}" id="category{{ locale|upper }}Tab" role="tabpanel" aria-labelledby="category{{ locale|upper }}TabButton">
+        {{ form_widget(translation) }}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block _category_translations_entry_widget %}
+  <div class="row">
+    <div class="col-md-3">
+      <div class="nav flex-column nav-pills" id="categoryTranslation{{ form.vars.name|upper }}" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="category{{ form.vars.name|upper }}ContentTabButton" data-toggle="tab" href="#category{{ form.vars.name|upper }}ContentTab" role="tab" aria-controls="category{{ form.vars.name|upper }}ContentTab" aria-selected="true">{{ 'lbl.Content'|trans|ucfirst }}</a>
+        <a class="nav-link" id="category{{ form.vars.name|upper }}SEOTabButton" data-toggle="tab" href="#category{{ form.vars.name|upper }}SEOTab" role="tab" aria-controls="category{{ form.vars.name|upper }}SEOTab" aria-selected="true">{{ 'lbl.SEO'|trans|ucfirst }}</a>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="tab-content border-0">
+        <div class="tab-pane" id="category{{ form.vars.name|upper }}SEOTab" role="tabpanel" aria-labelledby="category{{ form.vars.name|upper }}SEOTabButton">
+          {{ form_widget(form.meta) }}
+        </div>
+        <div class="tab-pane active" id="category{{ form.vars.name|upper }}ContentTab" role="tabpanel" aria-labelledby="category{{ form.vars.name|upper }}ContentTabButton">
+          {{ form_rest(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
