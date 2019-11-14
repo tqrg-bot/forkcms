@@ -7,3 +7,7 @@ services:
   Backend\Modules\Faq\Domain\Category\Command\CreateCategoryHandler:
     tags:
       - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\CreateCategory }
+
+  Backend\Modules\Faq\Domain\Category\Command\UpdateCategoryHandler:
+    tags:
+      - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\UpdateCategory }
