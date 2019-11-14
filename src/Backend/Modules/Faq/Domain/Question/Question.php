@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="FaqQuestion")
- * @ORM\Entity(repositoryClass="Backend\Modules\Faq\Domain\Question\Question\QuestionRepository")
+ * @ORM\Entity(repositoryClass="Backend\Modules\Faq\Domain\Question\QuestionRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Question
@@ -16,10 +16,24 @@ class Question
      * @var int
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+    private $revisionId;
+
+    /**
+     * @var Status
+     *
+     * @ORM\Column(type="faq_question_status")
+     */
+    private $status;
 
     /**
      * @var int
@@ -64,11 +78,17 @@ class Question
     private $editedOn;
 
     public function __construct(
-        string $sequence,
-        string $visibleOnPhone,
-        string $visibleOnTablet,
+        int $id,
+        int $revisionId,
+        Status $status,
+        int $sequence,
+        bool $visibleOnPhone,
+        bool $visibleOnTablet,
         bool $visibleOnDesktop
     ) {
+        $this->id = $id;
+        $this->revisionId = $revisionId;
+        $this->status = $status;
         $this->sequence = $sequence;
         $this->visibleOnPhone = $visibleOnPhone;
         $this->visibleOnTablet = $visibleOnTablet;
@@ -78,6 +98,16 @@ class Question
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getRevisionId(): int
+    {
+        return $this->revisionId;
+    }
+
+    public function getStatus(): Status
+    {
+        return $this->status;
     }
 
     public function getSequence(): int
@@ -131,6 +161,8 @@ class Question
     {
         if ($dataTransferObject->hasExistingQuestion()) {
             $question = $dataTransferObject->getQuestionEntity();
+            $question->revisionId = $dataTransferObject->revisionId;
+            $question->status = $dataTransferObject->status;
             $question->sequence = $dataTransferObject->sequence;
             $question->visibleOnPhone = $dataTransferObject->visibleOnPhone;
             $question->visibleOnTablet = $dataTransferObject->visibleOnTablet;
@@ -140,6 +172,9 @@ class Question
         }
 
         return new self(
+            $dataTransferObject->getId(),
+            $dataTransferObject->revisionId,
+            $dataTransferObject->status,
             $dataTransferObject->sequence,
             $dataTransferObject->visibleOnPhone,
             $dataTransferObject->visibleOnTablet,

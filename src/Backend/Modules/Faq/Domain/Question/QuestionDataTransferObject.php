@@ -12,6 +12,21 @@ class QuestionDataTransferObject
     /**
      * @var int
      */
+    private $id;
+
+    /**
+     * @var int
+     */
+    public $revisionId;
+
+    /**
+     * @var Status
+     */
+    public $status;
+
+    /**
+     * @var int
+     */
     public $sequence;
 
     /**
@@ -34,9 +49,19 @@ class QuestionDataTransferObject
         $this->questionEntity = $question;
 
         if (!$this->hasExistingQuestion()) {
+            $this->revisionId = 1;
+            $this->status = Status::active();
+            $this->visibleOnPhone = true;
+            $this->visibleOnTablet = true;
+            $this->visibleOnDesktop = true;
+
             return;
         }
 
+        $this->setId($this->questionEntity->getId());
+        $this->revisionId = $this->questionEntity->getRevisionId();
+        $this->status = $this->questionEntity->getStatus();
+        $this->id = $this->questionEntity->getId();
         $this->sequence = $this->questionEntity->getSequence();
         $this->visibleOnPhone = $this->questionEntity->getVisibleOnPhone();
         $this->visibleOnTablet = $this->questionEntity->getVisibleOnTablet();
@@ -51,5 +76,19 @@ class QuestionDataTransferObject
     public function hasExistingQuestion(): bool
     {
         return $this->questionEntity instanceof Question;
+    }
+
+    public function setId(int $id): void
+    {
+        if ($this->id !== null) {
+            throw new IdAlreadySetException();
+        }
+
+        $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }
