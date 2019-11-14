@@ -79,6 +79,11 @@ class Category
         return $this->sequence;
     }
 
+    public function changeSequence(int $sequence): void
+    {
+        $this->sequence = $sequence;
+    }
+
     /**
      * @ORM\PrePersist
      */

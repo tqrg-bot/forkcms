@@ -15,3 +15,7 @@ services:
   Backend\Modules\Faq\Domain\Category\Command\UpdateCategoryHandler:
     tags:
       - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\UpdateCategory }
+
+  Backend\Modules\Faq\Domain\Category\Command\ReSequenceCategoriesHandler:
+    tags:
+      - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\ReSequenceCategories }
