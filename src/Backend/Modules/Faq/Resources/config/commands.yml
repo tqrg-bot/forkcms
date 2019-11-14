@@ -8,6 +8,10 @@ services:
     tags:
       - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\CreateCategory }
 
+  Backend\Modules\Faq\Domain\Category\Command\DeleteCategoryHandler:
+    tags:
+      - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\DeleteCategory }
+
   Backend\Modules\Faq\Domain\Category\Command\UpdateCategoryHandler:
     tags:
       - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\UpdateCategory }
