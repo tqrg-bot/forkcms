@@ -9,5 +9,5 @@ final class Config extends BaseConfig
     /**
      * @inheritdoc
      */
-    public $defaultAction = 'question_index';
+    public $defaultAction = 'category_index';
 }

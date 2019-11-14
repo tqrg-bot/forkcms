@@ -37,23 +37,15 @@ final class Installer extends ModuleInstaller
     {
         $navigationModulesId = $this->setNavigation(null, 'Modules');
 
-        $navigationModuleId = $this->setNavigation($navigationModulesId, $this->getModule());
         $this->setNavigation(
-            $navigationModuleId,
-            'Question',
-            'faq/question_index',
-            [
-                'faq/question_add',
-                'faq/question_edit'
-            ]
-        );
-        $this->setNavigation(
-            $navigationModuleId,
-            'Category',
+            $navigationModulesId,
+            $this->getModule(),
             'faq/category_index',
             [
                 'faq/category_add',
-                'faq/category_edit'
+                'faq/category_edit',
+                'faq/question_add',
+                'faq/question_edit'
             ]
         );
     }
@@ -66,9 +58,10 @@ final class Installer extends ModuleInstaller
         $this->setActionRights(1, $this->getModule(), 'CategoryIndex');
         $this->setActionRights(1, $this->getModule(), 'CategoryDelete');
         $this->setActionRights(1, $this->getModule(), 'CategoryEdit');
+        $this->setActionRights(1, $this->getModule(), 'CategoryReSequence');
         $this->setActionRights(1, $this->getModule(), 'QuestionAdd');
-        $this->setActionRights(1, $this->getModule(), 'QuestionIndex');
         $this->setActionRights(1, $this->getModule(), 'QuestionDelete');
         $this->setActionRights(1, $this->getModule(), 'QuestionEdit');
+        $this->setActionRights(1, $this->getModule(), 'QuestionReSequence');
     }
 }
