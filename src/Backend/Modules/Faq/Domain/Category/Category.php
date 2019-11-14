@@ -2,11 +2,15 @@
 
 namespace Backend\Modules\Faq\Domain\Category;
 
+use Backend\Core\Language\Language as BackendLanguage;
+use Backend\Core\Language\Locale as BackendLocale;
+use Common\Language;
 use Common\Locale;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Frontend\Core\Language\Locale as FrontendLocale;
 
 /**
  * @ORM\Table(name="FaqCategory")
@@ -140,5 +144,19 @@ class Category
     public function addTranslation(Locale $locale, CategoryTranslation $categoryTranslation): void
     {
         $this->translations->set((string) $locale, $categoryTranslation);
+    }
+
+    public function getCurrentTranslation(): CategoryTranslation
+    {
+        if (Language::get() === BackendLanguage::class) {
+            return $this->getTranslation(BackendLocale::workingLocale());
+        }
+
+        return $this->getTranslation(FrontendLocale::frontendLanguage());
+    }
+
+    public function __toString(): string
+    {
+        return $this->getCurrentTranslation()->getName();
     }
 }
