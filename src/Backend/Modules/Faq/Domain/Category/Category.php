@@ -4,6 +4,7 @@ namespace Backend\Modules\Faq\Domain\Category;
 
 use Common\Locale;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -61,6 +62,7 @@ class Category
         int $sequence
     ) {
         $this->sequence = $sequence;
+        $this->translations = new ArrayCollection();
     }
 
     public function getId(): int
@@ -110,7 +112,7 @@ class Category
         }
 
         foreach ($dataTransferObject->translations as $translation) {
-            $translation->questionEntity = $category;
+            $translation->category = $category;
 
             CategoryTranslation::fromDataTransferObject($translation);
         }
@@ -128,8 +130,8 @@ class Category
 
     public function getTranslation(Locale $locale): CategoryTranslation
     {
-        if ($this->translations->containsKey($locale)) {
-            return $this->translations->get($locale);
+        if ($this->translations->containsKey((string) $locale)) {
+            return $this->translations->get((string) $locale);
         }
 
         throw CategoryTranslationNotFoundException::withLocale($locale);
@@ -137,6 +139,6 @@ class Category
 
     public function addTranslation(Locale $locale, CategoryTranslation $categoryTranslation): void
     {
-        $this->translations->set($locale, $categoryTranslation);
+        $this->translations->set((string) $locale, $categoryTranslation);
     }
 }

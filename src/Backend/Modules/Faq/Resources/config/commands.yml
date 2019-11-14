@@ -3,3 +3,7 @@ services:
     autowire: true
     autoconfigure: true
     public: true
+
+  Backend\Modules\Faq\Domain\Category\Command\CreateCategoryHandler:
+    tags:
+      - { name: command_handler, handles: Backend\Modules\Faq\Domain\Category\Command\CreateCategory }

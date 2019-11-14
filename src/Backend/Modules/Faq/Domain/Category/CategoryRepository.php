@@ -63,10 +63,19 @@ class CategoryRepository extends ServiceEntityRepository
                 ->setParameter('id', $id);
         }
 
-        if ((int)$query->getQuery()->getSingleScalarResult() === 0) {
+        if ((int) $query->getQuery()->getSingleScalarResult() === 0) {
             return $url;
         }
 
         return $this->getUrl(Model::addNumber($url), $locale, $id);
+    }
+
+    public function getNextSequence(): int
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->select('MAX(c.sequence) + 1')
+            ->getQuery()
+            ->getSingleScalarResult() ?? 1;
     }
 }

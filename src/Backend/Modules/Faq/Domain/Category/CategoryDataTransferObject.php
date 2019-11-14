@@ -37,7 +37,7 @@ class CategoryDataTransferObject
 
         foreach ($category->getTranslations() as $categoryTranslation) {
             $this->translations->set(
-                $categoryTranslation->getLocale(),
+                (string) $categoryTranslation->getLocale(),
                 new CategoryTranslationDataTransferObject($categoryTranslation)
             );
         }
