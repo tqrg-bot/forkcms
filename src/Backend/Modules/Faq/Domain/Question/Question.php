@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="FaqQuestion")
  * @ORM\Entity(repositoryClass="Backend\Modules\Faq\Domain\Question\QuestionRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\OrderBy({"sequence" = "ASC"})
  */
 class Question
 {
