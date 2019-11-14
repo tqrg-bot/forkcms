@@ -2,6 +2,7 @@
 
 namespace Backend\Modules\Faq\Domain\Question;
 
+use Backend\Modules\Faq\Domain\Category\Category;
 use Common\Locale;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -77,7 +78,7 @@ class Question
      *     indexBy="locale"
      * )
      */
-    protected $translations;
+    private $translations;
 
     /**
      * @var DateTime
@@ -93,6 +94,16 @@ class Question
      */
     private $editedOn;
 
+    /**
+     * @var Category
+     *
+     * @ORM\ManyToOne(
+     *     targetEntity="Backend\Modules\Faq\Domain\Category\Category",
+     *     inversedBy="questions"
+     * )
+     */
+    private $category;
+
     public function __construct(
         int $id,
         int $revisionId,
@@ -100,7 +111,8 @@ class Question
         int $sequence,
         bool $visibleOnPhone,
         bool $visibleOnTablet,
-        bool $visibleOnDesktop
+        bool $visibleOnDesktop,
+        Category $category
     ) {
         $this->id = $id;
         $this->revisionId = $revisionId;
@@ -109,6 +121,7 @@ class Question
         $this->visibleOnPhone = $visibleOnPhone;
         $this->visibleOnTablet = $visibleOnTablet;
         $this->visibleOnDesktop = $visibleOnDesktop;
+        $this->category = $category;
         $this->translations = new ArrayCollection();
     }
 
@@ -125,6 +138,11 @@ class Question
     public function getStatus(): Status
     {
         return $this->status;
+    }
+
+    public function getCategory(): Category
+    {
+        return $this->category;
     }
 
     public function getSequence(): int
@@ -183,7 +201,8 @@ class Question
             $dataTransferObject->sequence,
             $dataTransferObject->visibleOnPhone,
             $dataTransferObject->visibleOnTablet,
-            $dataTransferObject->visibleOnDesktop
+            $dataTransferObject->visibleOnDesktop,
+            $dataTransferObject->getCategory()
         );
 
         foreach ($dataTransferObject->translations as $translation) {

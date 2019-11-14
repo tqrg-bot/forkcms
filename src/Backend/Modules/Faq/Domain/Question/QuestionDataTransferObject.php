@@ -4,6 +4,7 @@ namespace Backend\Modules\Faq\Domain\Question;
 
 use Backend\Core\Language\Language;
 use Backend\Core\Language\Locale;
+use Backend\Modules\Faq\Domain\Category\Category;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -13,6 +14,11 @@ class QuestionDataTransferObject
      * @var int|null
      */
     private $id;
+
+    /**
+     * @var Category
+     */
+    protected $category;
 
     /**
      * @var int
@@ -67,6 +73,7 @@ class QuestionDataTransferObject
         $this->revisionId = $question->getRevisionId();
         $this->status = $question->getStatus();
         $this->id = $question->getId();
+        $this->category = $question->getCategory();
         $this->sequence = $question->getSequence();
         $this->visibleOnPhone = $question->getVisibleOnPhone();
         $this->visibleOnTablet = $question->getVisibleOnTablet();
@@ -91,6 +98,11 @@ class QuestionDataTransferObject
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCategory(): Category
+    {
+        return $this->category;
     }
 
     /**

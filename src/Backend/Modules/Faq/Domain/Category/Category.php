@@ -4,6 +4,7 @@ namespace Backend\Modules\Faq\Domain\Category;
 
 use Backend\Core\Language\Language as BackendLanguage;
 use Backend\Core\Language\Locale as BackendLocale;
+use Backend\Modules\Faq\Domain\Question\Question;
 use Common\Language;
 use Common\Locale;
 use DateTime;
@@ -46,7 +47,7 @@ class Category
      *     indexBy="locale"
      * )
      */
-    protected $translations;
+    private $translations;
 
     /**
      * @var DateTime
@@ -62,11 +63,25 @@ class Category
      */
     private $editedOn;
 
+    /**
+     * @var Collection|Question[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Backend\Modules\Faq\Domain\Question\Question",
+     *     mappedBy="category",
+     *     cascade={"persist", "merge", "remove", "detach"},
+     *     orphanRemoval=true
+     * )
+     * @ORM\OrderBy({"sequence":"ASC"})
+     */
+    private $questions;
+
     public function __construct(
         int $sequence
     ) {
         $this->sequence = $sequence;
         $this->translations = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): int
@@ -149,6 +164,23 @@ class Category
     public function addTranslation(Locale $locale, CategoryTranslation $categoryTranslation): void
     {
         $this->translations->set((string) $locale, $categoryTranslation);
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): void
+    {
+        if ($this->questions->contains($question)) {
+            return;
+        }
+
+        $this->questions->add($question);
     }
 
     public function getCurrentTranslation(): CategoryTranslation
