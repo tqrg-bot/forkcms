@@ -2,11 +2,11 @@
 
 namespace Backend\Modules\Faq\Domain\Question;
 
-use RuntimeException;
+use UnexpectedValueException;
 
-final class InvalidFaqQuestionStatusException extends RuntimeException
+final class InvalidFaqQuestionStatusException extends UnexpectedValueException
 {
-    public static function withType(string $type)
+    public static function withType(string $type): self
     {
         return new self("$type is not a valid Status");
     }
