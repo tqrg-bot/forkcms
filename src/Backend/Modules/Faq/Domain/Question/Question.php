@@ -47,7 +47,7 @@ class Question
     /**
      * @var bool
      *
-     * @ORM\Column(type="bool")
+     * @ORM\Column(type="boolean")
      */
     private $visibleOnPhone;
 

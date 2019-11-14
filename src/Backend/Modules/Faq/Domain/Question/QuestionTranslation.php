@@ -29,6 +29,10 @@ class QuestionTranslation
      *     targetEntity="Question",
      *     inversedBy="translations"
      * )
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="questionId", referencedColumnName="id", nullable=false, onDelete="CASCADE"),
+     *   @ORM\JoinColumn(name="questionRevisionid", referencedColumnName="revisionId", nullable=false, onDelete="CASCADE")
+     * })
      */
     private $questionEntity;
 
