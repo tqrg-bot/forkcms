@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 class QuestionDataTransferObject
 {
     /**
-     * @var int
+     * @var int|null
      */
     private $id;
 
@@ -88,7 +88,7 @@ class QuestionDataTransferObject
         $this->id = $id;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
