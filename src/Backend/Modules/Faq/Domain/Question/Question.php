@@ -4,6 +4,7 @@ namespace Backend\Modules\Faq\Domain\Question;
 
 use Common\Locale;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -108,6 +109,7 @@ class Question
         $this->visibleOnPhone = $visibleOnPhone;
         $this->visibleOnTablet = $visibleOnTablet;
         $this->visibleOnDesktop = $visibleOnDesktop;
+        $this->translations = new ArrayCollection();
     }
 
     public function getId(): int
@@ -183,6 +185,12 @@ class Question
             $dataTransferObject->visibleOnTablet,
             $dataTransferObject->visibleOnDesktop
         );
+
+        foreach ($dataTransferObject->translations as $translation) {
+            $translation->questionEntity = $question;
+
+            QuestionTranslation::fromDataTransferObject($translation);
+        }
 
         return $question;
     }
