@@ -71,8 +71,8 @@ class QuestionTranslation
         string $question,
         string $answer
     ) {
-        $this->questionEntity->addTranslation($locale, $this);
         $this->questionEntity = $questionEntity;
+        $this->questionEntity->addTranslation($locale, $this);
         $this->locale = $locale;
         $this->meta = $meta;
         $this->question = $question;
