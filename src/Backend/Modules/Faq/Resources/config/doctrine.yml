@@ -1,6 +1,7 @@
 doctrine:
   dbal:
     types:
+        faq_question_status: Backend\Modules\Faq\Domain\Question\StatusDBALType
   orm:
     mappings:
       FaqQuestion:
