@@ -3,3 +3,9 @@ doctrine:
     types:
   orm:
     mappings:
+      FaqQuestion:
+        type: annotation
+        is_bundle: false
+        dir: "%kernel.project_dir%/src/Backend/Modules/Faq/Domain/Question"
+        alias: FaqQuestion
+        prefix: Backend\Modules\Faq\Domain\Question

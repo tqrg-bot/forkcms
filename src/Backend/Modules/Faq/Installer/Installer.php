@@ -4,6 +4,7 @@ namespace Backend\Modules\Faq\Installer;
 
 use Backend\Core\Engine\Model;
 use Backend\Core\Installer\ModuleInstaller;
+use Backend\Modules\Faq\Domain\Question\Question\Question;
 
 final class Installer extends ModuleInstaller
 {
@@ -23,7 +24,7 @@ final class Installer extends ModuleInstaller
     {
         Model::get('fork.entity.create_schema')->forEntityClasses(
             [
-                // [entity_name]::class,
+                Question::class,
             ]
         );
     }
