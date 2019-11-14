@@ -3,8 +3,47 @@
   <Backend>
     <Core>
       <item type="label" name="Faq">
-        <translation language="nl"><![CDATA[Faq]]></translation>
+        <translation language="nl"><![CDATA[FAQ]]></translation>
+        <translation language="en"><![CDATA[FAQ]]></translation>
       </item>
     </Core>
+    <Faq>
+      <item type="label" name="Question">
+        <translation language="nl"><![CDATA[vraag]]></translation>
+        <translation language="en"><![CDATA[question]]></translation>
+      </item>
+      <item type="label" name="Answer">
+        <translation language="nl"><![CDATA[antwoord]]></translation>
+        <translation language="en"><![CDATA[answer]]></translation>
+      </item>
+      <item type="label" name="Category">
+        <translation language="nl"><![CDATA[categorie]]></translation>
+        <translation language="en"><![CDATA[category]]></translation>
+      </item>
+      <item type="label" name="CategoryIndex">
+        <translation language="nl"><![CDATA[overzicht]]></translation>
+        <translation language="en"><![CDATA[overview]]></translation>
+      </item>
+      <item type="label" name="CategoryAdd">
+        <translation language="nl"><![CDATA[categorie toevoegen]]></translation>
+        <translation language="en"><![CDATA[add category]]></translation>
+      </item>
+      <item type="label" name="CategoryEdit">
+        <translation language="nl"><![CDATA[categorie bewerken]]></translation>
+        <translation language="en"><![CDATA[edit category]]></translation>
+      </item>
+      <item type="label" name="QuestionIndex">
+        <translation language="nl"><![CDATA[overzicht]]></translation>
+        <translation language="en"><![CDATA[overview]]></translation>
+      </item>
+      <item type="label" name="QuestionAdd">
+        <translation language="nl"><![CDATA[vraag toevoegen]]></translation>
+        <translation language="en"><![CDATA[add question]]></translation>
+      </item>
+      <item type="label" name="QuestionEdit">
+        <translation language="nl"><![CDATA[vraag bewerken]]></translation>
+        <translation language="en"><![CDATA[edit question]]></translation>
+      </item>
+    </Faq>
   </Backend>
 </locale>

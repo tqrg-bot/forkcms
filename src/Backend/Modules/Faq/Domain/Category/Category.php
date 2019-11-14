@@ -2,7 +2,6 @@
 
 namespace Backend\Modules\Faq\Domain\Category;
 
-use Backend\Modules\Faq\Domain\Question\QuestionTranslation;
 use Common\Locale;
 use DateTime;
 use Doctrine\Common\Collections\Collection;

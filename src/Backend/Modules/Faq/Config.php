@@ -6,4 +6,8 @@ use Backend\Core\Engine\Base\Config as BaseConfig;
 
 final class Config extends BaseConfig
 {
+    /**
+     * @inheritdoc
+     */
+    public $defaultAction = 'question_index';
 }
