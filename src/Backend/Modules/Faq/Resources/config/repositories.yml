@@ -5,3 +5,5 @@ services:
     public: true
 
   Backend\Modules\Faq\Domain\Question\QuestionRepository:
+
+  Backend\Modules\Faq\Domain\Category\CategoryRepository:
