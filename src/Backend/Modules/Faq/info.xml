@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <name>Faq</name>
+    <version>1.0.0</version>
+    <requirements>
+        <minimum_version>5.0.0</minimum_version>
+    </requirements>
+    <description>
+        <![CDATA[
+            Wimi Games custom FAQ Module
+        ]]>
+    </description>
+</module>
