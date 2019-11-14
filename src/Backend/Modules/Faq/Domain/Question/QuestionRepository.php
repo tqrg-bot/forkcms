@@ -26,4 +26,45 @@ class QuestionRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($question);
     }
+
+    public function findBySlugAndLocale(string $slug, Locale $locale): ?Question
+    {
+        try {
+            return $this
+                ->createQueryBuilder('q')
+                ->select('q, qt, m, c')
+                ->innerJoin('q.translations', 'qt', Join::WITH, 'qt.locale = :locale')
+                ->innerJoin('qt.meta', 'm', Join::WITH, 'm.url = :slug')
+                ->innerJoin('q.category', 'c')
+                ->setParameter('slug', $slug)
+                ->setParameter('locale', $locale)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException | NonUniqueResultException $resultException) {
+            return null;
+        }
+    }
+
+    public function getUrl(string $url, Locale $locale, int $id = null): string
+    {
+        $query = $this
+            ->createQueryBuilder('q')
+            ->select('COUNT(q)')
+            ->innerJoin('q.translations', 'qt', Join::WITH, 'qt.locale = :locale')
+            ->innerJoin('qt.meta', 'm', Join::WITH, 'm.url = :url')
+            ->setParameter('url', $url)
+            ->setParameter('locale', $locale);
+
+        if ($id !== null) {
+            $query
+                ->andWhere('q.id != :id')
+                ->setParameter('id', $id);
+        }
+
+        if ((int)$query->getQuery()->getSingleScalarResult() === 0) {
+            return $url;
+        }
+
+        return $this->getUrl(Model::addNumber($url), $locale, $id);
+    }
 }

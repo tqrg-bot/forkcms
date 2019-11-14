@@ -2,13 +2,13 @@
 
 namespace Backend\Modules\Faq\Domain\Question;
 
+use Backend\Core\Language\Language;
+use Backend\Core\Language\Locale;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 class QuestionDataTransferObject
 {
-    /**
-     * @var Question
-     */
-    private $questionEntity;
-
     /**
      * @var int
      */
@@ -44,11 +44,16 @@ class QuestionDataTransferObject
      */
     public $visibleOnDesktop;
 
+    /**
+     * @var Collection|QuestionTranslationDataTransferObject[]
+     */
+    public $translations;
+
     public function __construct(Question $question = null)
     {
-        $this->questionEntity = $question;
+        $this->translations = $this->createTranslations();
 
-        if (!$this->hasExistingQuestion()) {
+        if ($question === null) {
             $this->revisionId = 1;
             $this->status = Status::active();
             $this->visibleOnPhone = true;
@@ -58,24 +63,20 @@ class QuestionDataTransferObject
             return;
         }
 
-        $this->setId($this->questionEntity->getId());
-        $this->revisionId = $this->questionEntity->getRevisionId();
-        $this->status = $this->questionEntity->getStatus();
-        $this->id = $this->questionEntity->getId();
-        $this->sequence = $this->questionEntity->getSequence();
-        $this->visibleOnPhone = $this->questionEntity->getVisibleOnPhone();
-        $this->visibleOnTablet = $this->questionEntity->getVisibleOnTablet();
-        $this->visibleOnDesktop = $this->questionEntity->isVisibleOnDesktop();
-    }
-
-    public function getQuestionEntity(): Question
-    {
-        return $this->questionEntity;
-    }
-
-    public function hasExistingQuestion(): bool
-    {
-        return $this->questionEntity instanceof Question;
+        $this->setId($question->getId());
+        $this->revisionId = $question->getRevisionId();
+        $this->status = $question->getStatus();
+        $this->id = $question->getId();
+        $this->sequence = $question->getSequence();
+        $this->visibleOnPhone = $question->getVisibleOnPhone();
+        $this->visibleOnTablet = $question->getVisibleOnTablet();
+        $this->visibleOnDesktop = $question->isVisibleOnDesktop();
+        foreach ($question->getTranslations() as $questionTranslation) {
+            $this->translations->set(
+                $questionTranslation->getLocale(),
+                new QuestionTranslationDataTransferObject($questionTranslation)
+            );
+        }
     }
 
     public function setId(int $id): void
@@ -90,5 +91,26 @@ class QuestionDataTransferObject
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * This method makes sure that even when new languages are added we will always show them in the form
+     *
+     * @return ArrayCollection
+     */
+    private function createTranslations(): ArrayCollection
+    {
+        $translations = new ArrayCollection();
+        foreach (Language::getActiveLanguages() as $locale) {
+            $translations->set(
+                $locale,
+                new QuestionTranslationDataTransferObject(
+                    null,
+                    Locale::fromString($locale)
+                )
+            );
+        }
+
+        return $translations;
     }
 }

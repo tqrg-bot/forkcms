@@ -25,6 +25,10 @@ class QuestionTranslation
     /**
      * @var Question
      *
+     * @ORM\ManyToOne(
+     *     targetEntity="Question",
+     *     inversedBy="translations"
+     * )
      */
     private $questionEntity;
 
@@ -63,7 +67,7 @@ class QuestionTranslation
         string $question,
         string $answer
     ) {
-        $questionEntity->getTranslations()->set($locale, $this);
+        $this->questionEntity->addTranslation($locale, $this);
         $this->questionEntity = $questionEntity;
         $this->locale = $locale;
         $this->meta = $meta;

@@ -37,9 +37,11 @@ class QuestionTranslationDataTransferObject
      */
     public $answer;
 
-    public function __construct(QuestionTranslation $questionTranslation = null)
+    public function __construct(QuestionTranslation $questionTranslation = null, Locale $locale = null)
     {
-        if ($questionTranslation === null) {
+        if ($questionTranslation === null && $locale instanceof Locale) {
+            $this->locale = $locale;
+
             return;
         }
 

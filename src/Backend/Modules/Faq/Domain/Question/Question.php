@@ -2,7 +2,9 @@
 
 namespace Backend\Modules\Faq\Domain\Question;
 
+use Common\Locale;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -63,6 +65,19 @@ class Question
      * @ORM\Column(type="boolean")
      */
     private $visibleOnDesktop;
+
+    /**
+     * @var Collection|QuestionTranslation[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="QuestionTranslation",
+     *     mappedBy="questionEntity",
+     *     cascade={"persist", "merge", "remove", "detach"},
+     *     orphanRemoval=true,
+     *     indexBy="locale"
+     * )
+     */
+    protected $translations;
 
     /**
      * @var DateTime
@@ -160,19 +175,7 @@ class Question
 
     public static function fromDataTransferObject(QuestionDataTransferObject $dataTransferObject): self
     {
-        if ($dataTransferObject->hasExistingQuestion()) {
-            $question = $dataTransferObject->getQuestionEntity();
-            $question->revisionId = $dataTransferObject->revisionId;
-            $question->status = $dataTransferObject->status;
-            $question->sequence = $dataTransferObject->sequence;
-            $question->visibleOnPhone = $dataTransferObject->visibleOnPhone;
-            $question->visibleOnTablet = $dataTransferObject->visibleOnTablet;
-            $question->visibleOnDesktop = $dataTransferObject->visibleOnDesktop;
-
-            return $question;
-        }
-
-        return new self(
+        $question = new self(
             $dataTransferObject->getId(),
             $dataTransferObject->revisionId,
             $dataTransferObject->status,
@@ -181,5 +184,29 @@ class Question
             $dataTransferObject->visibleOnTablet,
             $dataTransferObject->visibleOnDesktop
         );
+
+        return $question;
+    }
+
+    /**
+     * @return Collection|QuestionTranslation[]
+     */
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function getTranslation(Locale $locale): QuestionTranslation
+    {
+        if ($this->translations->containsKey($locale)) {
+            return $this->translations->get($locale);
+        }
+
+        throw QuestionTranslationNotFoundException::withLocale($locale);
+    }
+
+    public function addTranslation(Locale $locale, QuestionTranslation $questionTranslation): void
+    {
+        $this->translations->set($locale, $questionTranslation);
     }
 }
