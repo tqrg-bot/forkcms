@@ -59,11 +59,6 @@ class CategoryTranslation
         $this->name = $name;
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getCategory(): Category
     {
         return $this->category;
